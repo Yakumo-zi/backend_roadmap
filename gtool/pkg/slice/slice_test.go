@@ -40,3 +40,30 @@ func TestReduce(t *testing.T) {
 		})
 	}
 }
+
+func TestDistinct(t *testing.T) {
+	type args[T comparable] struct {
+		arr []T
+	}
+	type testCase[T comparable] struct {
+		name string
+		args args[T]
+		want []T
+	}
+	tests := []testCase[int]{
+		{
+			name: "distinct",
+			args: args[int]{
+				arr: []int{1, 2, 3, 1, 2, 4, 2, 3, 6, 1, 7},
+			},
+			want: []int{1, 2, 3, 4, 6, 7},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Distinct(tt.args.arr); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Distinct() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

@@ -1,5 +1,9 @@
 package slice
 
+import (
+	"cmp"
+)
+
 func Filter[T any](arr []T, f func(T) bool) (res []T) {
 	for _, v := range arr {
 		if f(v) {
@@ -27,6 +31,18 @@ func Reduce[T any, V any](arr []T, f func(V, T) V, init V) V {
 	res := init
 	for _, v := range arr {
 		res = f(res, v)
+	}
+	return res
+}
+
+func Distinct[T cmp.Ordered](arr []T) []T {
+	set := map[T]int{}
+	for i, v := range arr {
+		set[v] = i
+	}
+	res := make([]T, len(arr))
+	for k, v := range set {
+		res[v] = k
 	}
 	return res
 }
